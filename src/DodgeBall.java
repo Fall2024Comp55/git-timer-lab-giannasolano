@@ -20,6 +20,7 @@ public class DodgeBall extends GraphicsProgram implements ActionListener {
 	private Timer movement;
 	private RandomGenerator rgen;
 	private int numTimes = -1;
+	private GLabel youLost;
 	
 	public static final int SIZE = 25;
 	public static final int SPEED = 2;
@@ -45,6 +46,10 @@ public class DodgeBall extends GraphicsProgram implements ActionListener {
 		numTimes++;
 		if (numTimes % 40 == 0) {
 			addAnEnemy();
+		}
+		if (enemies.size() > MAX_ENEMIES) {
+			gameOver();
+			return;
 		}
 		moveAllBallsOnce();
 		moveAllEnemiesOnce();
@@ -111,6 +116,12 @@ public class DodgeBall extends GraphicsProgram implements ActionListener {
 			enemies.get(i).move(0, SPEED);
 		}
 		
+	}
+	public void gameOver() {
+		movement.stop();
+		removeAll();
+		youLost = new GLabel ("You Lost - Score: " + numTimes, WINDOW_WIDTH/3, WINDOW_HEIGHT/2);
+		add(youLost);
 	}
 	
 	public void init() {
